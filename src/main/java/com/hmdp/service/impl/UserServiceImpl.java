@@ -13,7 +13,6 @@ import com.hmdp.mapper.UserMapper;
 import com.hmdp.service.IUserService;
 import com.hmdp.utils.RegexUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -99,7 +98,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);
         stringRedisTemplate.expire(tokenKey, CACHE_NULL_TTL, TimeUnit.HOURS);
         // 返回token
-        return Result.ok();
+        return Result.ok(token);
     }
 
     private User createUserWithPhone(String phone) {
