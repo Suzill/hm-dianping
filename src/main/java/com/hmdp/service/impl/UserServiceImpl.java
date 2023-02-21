@@ -55,7 +55,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 //         保存验证码到session
 //         session.setAttribute("code", code);
 //         保存验证码到redis
-        stringRedisTemplate.opsForValue().set(LOGIN_CODE_KEY + phone, code, LOGIN_CODE_TTL, TimeUnit.SECONDS);
+        String loginKey = LOGIN_CODE_KEY + phone;
+        stringRedisTemplate.opsForValue().set(loginKey, code, LOGIN_CODE_TTL, TimeUnit.MINUTES);
         // 发送验证码
         log.info("发送验证码成功: {}", code);
         return Result.ok();
@@ -69,7 +70,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             return Result.fail("手机号格式错误");
         }
 //        Object code = session.getAttribute("code");
-        String code = stringRedisTemplate.opsForValue().get(LOGIN_CODE_KEY + loginForm.getPhone());
+        String loginKey = LOGIN_CODE_KEY + loginForm.getPhone();
+        String code = stringRedisTemplate.opsForValue().get(loginKey);
         if (!loginForm.getCode().equals(code)){
             return Result.fail("验证码错误");
         }
