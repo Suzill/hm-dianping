@@ -16,7 +16,7 @@ import static com.hmdp.utils.RedisConstants.LOGIN_USER_KEY;
 
 public class RefreshTokenInterceptor implements HandlerInterceptor {
 
-    private StringRedisTemplate stringRedisTemplate;
+    private final StringRedisTemplate stringRedisTemplate;
 
     public RefreshTokenInterceptor(StringRedisTemplate redisTemplate) {
         this.stringRedisTemplate = redisTemplate;
